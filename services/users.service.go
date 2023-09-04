@@ -7,35 +7,43 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/julianNot/golang-gorm-api/db"
 	"github.com/julianNot/golang-gorm-api/models"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
-	var users []models.User
+	var users []models.Directory
 	db.DB.Find(&users)
-	for i, user := range users {
-		db.DB.Model(&user).Association("Tasks").Find(&users[i].Tasks)
-	}
+	// for i, user := range users {
+	// 	db.DB.Model(&user).Association("Tasks").Find(&users[i].Tasks)
+	// }
 	json.NewEncoder(w).Encode(&users)
 }
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user models.User
+	var user models.Directory
 	params := mux.Vars(r)
-	db.DB.First(&user, params["id"])
-	if user.ID == 0 {
+	db.DB.Preload("Roles").First(&user, params["id"])
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return
 	}
-	db.DB.Model(&user).Association("Tasks").Find(&user.Tasks)
+	// db.DB.Model(&user).Association("Role").Find(&user.RoleID)
 	json.NewEncoder(w).Encode(&user)
 }
 
 func PostUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user models.User
+	var user models.Directory
 	json.NewDecoder(r.Body).Decode(&user)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.HashPassword), bcrypt.DefaultCost)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Failed to hash password"))
+		return
+	}
+	user.HashPassword = string(hashedPassword)
 	createdUser := db.DB.Create(&user)
-	err := createdUser.Error
+	err = createdUser.Error
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest) //400
 		w.Write([]byte(err.Error()))
@@ -45,10 +53,10 @@ func PostUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user models.User
+	var user models.Directory
 	params := mux.Vars(r)
 	db.DB.First(&user, params["id"])
-	if user.ID == 0 {
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return
@@ -58,10 +66,10 @@ func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func PutUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user models.User
+	var user models.Directory
 	params := mux.Vars(r)
 	db.DB.First(&user, params["id"])
-	if user.ID == 0 {
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return
