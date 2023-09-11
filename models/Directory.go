@@ -1,8 +1,8 @@
 package models
 
 type Directory struct {
-	DirectoryID  string `gorm:"primaryKey;not null;unique_index" json:"id_directory"`
-	UserName     string `gorm:"not null" json:"username"`
+	IdDirectory  string `gorm:"primaryKey:directory_id;unique_index" json:"directory_id"`
+	UserName     string `gorm:"not null" json:"user_name"`
 	AccessEmail  string `gorm:"not null" json:"access_email"`
 	HashPassword string `gorm:"not null" json:"hash_password"`
 	SaltHash     string `json:"salt_hash"`

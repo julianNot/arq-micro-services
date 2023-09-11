@@ -26,6 +26,6 @@ func SetupDatabase() {
 		&models.Action{},
 		&models.Role{},
 		&models.Directory{},
-		// &models.ActionRole{},
+	// 	// &models.ActionRole{},
 	)
 }
