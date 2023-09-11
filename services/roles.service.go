@@ -19,7 +19,7 @@ func GetRoleHandler(w http.ResponseWriter, r *http.Request) {
 	var role models.Role
 	params := mux.Vars(r)
 	db.DB.First(&role, params["id"])
-	if role.RoleID == "" {
+	if role.IdRole == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("Role Not Found"))
 		return
@@ -44,7 +44,7 @@ func DeleteRoleHandler(w http.ResponseWriter, r *http.Request) {
 	var role models.Role
 	params := mux.Vars(r)
 	db.DB.First(&role, params["id"])
-	if role.RoleID == "" {
+	if role.IdRole == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("Role Not Found"))
 		return
@@ -57,7 +57,7 @@ func PutRoleHandler(w http.ResponseWriter, r *http.Request) {
 	var role models.Role
 	params := mux.Vars(r)
 	db.DB.First(&role, params["id"])
-	if role.RoleID == "" {
+	if role.IdRole == "" {
 		w.WriteHeader(http.StatusNotFound)
 
 		w.Write([]byte("Role Not Found"))

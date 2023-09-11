@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/julianNot/golang-gorm-api/models"
+	// "github.com/julianNot/golang-gorm-api/models"
 )
 
 func SetupDatabase() {
@@ -21,11 +21,11 @@ func SetupDatabase() {
 
 	DBConnection(host, user, password, dbname, port)
 
-	DB.AutoMigrate(
-		// &models.Tenant{},
-		&models.Action{},
-		&models.Role{},
-		&models.Directory{},
-		// &models.ActionRole{},
-	)
+	// DB.AutoMigrate(
+	// // &models.Tenant{},
+	// // &models.Action{},
+	// // &models.Role{},
+	// // &models.Directory{},
+	// // &models.ActionRole{},
+	// )
 }
