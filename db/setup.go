@@ -23,9 +23,9 @@ func SetupDatabase() {
 
 	DB.AutoMigrate(
 		// &models.Tenant{},
-		&models.Action{},
-		&models.Role{},
-		&models.Directory{},
+		// &models.Action{},
+		// &models.Role{},
+		// &models.Directory{},
 	// 	// &models.ActionRole{},
 	)
 }
