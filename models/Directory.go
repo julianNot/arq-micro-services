@@ -6,6 +6,7 @@ type Directory struct {
 	AccessEmail  string `gorm:"not null" json:"access_email"`
 	HashPassword string `gorm:"not null" json:"hash_password"`
 	SaltHash     string `gorm:"column:salt_hash" json:"salt_hash"`
+	TenantID     string `gorm:"column:id_tenant;foreignkey:id_tenant" json:"id_tenant"`
 	RoleID       string `gorm:"column:id_role;foreignKey:id_role" json:"id_role"`
 }
 

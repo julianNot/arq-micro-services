@@ -82,6 +82,7 @@ type Directory struct {
 	HashPassword string `json:"hash_password"`
 	SaltHash     string `json:"salt_hash"`
 	IdRole       string `json:"id_role"`
+	IDTenant     string `json:"id_tenant"`
 }
 
 func (Directory) TableName() string {
