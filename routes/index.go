@@ -12,5 +12,5 @@ func SetRouter(router *mux.Router) {
 
 	setRouterUsers(apiRouter)
 	setRouterRoles(apiRouter)
-	setRouterTask(apiRouter)
+	setRouterTenants(apiRouter)
 }

@@ -29,7 +29,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user models.Directory
+	var user Directory
 	json.NewDecoder(r.Body).Decode(&user)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.HashPassword), bcrypt.DefaultCost)
 	if err != nil {
@@ -73,4 +73,17 @@ func PutUserHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&user)
 	db.DB.Save(&user)
 	json.NewEncoder(w).Encode(&user)
+}
+
+type Directory struct {
+	Username     string `json:"username"`
+	AccessEmail  string `json:"access_email"`
+	HashPassword string `json:"hash_password"`
+	SaltHash     string `json:"salt_hash"`
+	IdRole       string `json:"id_role"`
+	IDTenant     string `json:"id_tenant"`
+}
+
+func (Directory) TableName() string {
+	return "Directory"
 }

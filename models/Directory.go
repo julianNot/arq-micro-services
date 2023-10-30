@@ -1,10 +1,15 @@
 package models
 
 type Directory struct {
-	IdDirectory  string `gorm:"primaryKey:directory_id;unique_index" json:"directory_id"`
-	UserName     string `gorm:"not null" json:"user_name"`
+	DirectoryID  string `gorm:"column:id_directory;primaryKey:id_directory;not null;unique_index" json:"id_directory"`
+	UserName     string `gorm:"column:username;not null" json:"username"`
 	AccessEmail  string `gorm:"not null" json:"access_email"`
 	HashPassword string `gorm:"not null" json:"hash_password"`
-	SaltHash     string `json:"salt_hash"`
-	RoleID       string `gorm:"foreignKey:role_id" json:"role_id"`
+	SaltHash     string `gorm:"column:salt_hash" json:"salt_hash"`
+	TenantID     string `gorm:"column:id_tenant;foreignkey:id_tenant" json:"id_tenant"`
+	RoleID       string `gorm:"column:id_role;foreignKey:id_role" json:"id_role"`
+}
+
+func (Directory) TableName() string {
+	return "Directory"
 }
