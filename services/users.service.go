@@ -20,7 +20,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	var user models.Directory
 	params := mux.Vars(r)
 	db.DB.Preload("Roles").First(&user, params["id"])
-	if user.IdDirectory == "" {
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return
@@ -52,7 +52,7 @@ func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	var user models.Directory
 	params := mux.Vars(r)
 	db.DB.First(&user, params["id"])
-	if user.IdDirectory == "" {
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return
@@ -65,7 +65,7 @@ func PutUserHandler(w http.ResponseWriter, r *http.Request) {
 	var user models.Directory
 	params := mux.Vars(r)
 	db.DB.First(&user, params["id"])
-	if user.IdDirectory == "" {
+	if user.DirectoryID == "" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User Not Found"))
 		return

@@ -37,9 +37,9 @@ func AuthenticatePartnerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var user models.Directory
-	db.DB.Where("user_name = ?", creds.Username).First(&user)
+	db.DB.Where("username = ?", creds.Username).First(&user)
 
-	if user.IdDirectory == "" || !checkPasswordHash(creds.Password, user.HashPassword) {
+	if user.DirectoryID == "" || !checkPasswordHash(creds.Password, user.HashPassword) {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Invalid Credentials"))
 		return
